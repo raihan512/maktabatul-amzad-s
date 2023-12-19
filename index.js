@@ -45,6 +45,12 @@ async function run() {
       const book = await books.findOne(query);
       res.status(200).json(book);
     });
+    // ---------- Get book categoryId by push method
+    app.post("/api/books/getcategory", async (req, res) => {
+      const query = req.body;
+      const getBooks = await books.find(query).toArray();
+      res.status(200).json(getBooks);
+    });
     // ---------- Add Book
     app.post("/api/addbook", async (req, res) => {
       const book = await books.insertOne(req.body);
@@ -62,13 +68,8 @@ async function run() {
     });
     // ---------- Get writer by post method
     app.post("/api/writers/getwriters", async (req, res) => {
-      const queryArray = req.body;
-      const query = {};
-      queryArray.forEach((item) => {
-        const [field, value] = item.split(":");
-        query[field] = value;
-      });
-
+      const writerIds = req.body;
+      const query = { writerId: { $in: writerIds } };
       const writer = await writers.find(query).toArray();
       res.status(200).json(writer);
     });
@@ -82,10 +83,27 @@ async function run() {
       const allPublishers = await publishers.find().toArray();
       res.status(200).json(allPublishers);
     });
+    // ---------- Get publisher by post method
+    app.post("/api/publishers/getpublisher", async (req, res) => {
+      const queryArray = req.body;
+      const query = {};
+      queryArray.forEach((item) => {
+        const [field, value] = item.split(":");
+        query[field] = value;
+      });
+      const publisher = await publishers.find(query).toArray();
+      res.status(200).json(publisher);
+    });
     // ----------------------------------------------------------Category Route----------------------------------------------------------
     app.get("/api/categories", async (req, res) => {
       const allCategories = await categories.find().toArray();
       res.status(200).json(allCategories);
+    });
+    // ---------- Get category by post method
+    app.post("/api/categories/getcategory", async (req, res) => {
+      const query = req.body;
+      const category = await categories.find(query).toArray();
+      res.status(200).json(category);
     });
     // ---------- Get category by categoryId
     app.get("/api/categories/:categoryId", async (req, res) => {
@@ -98,6 +116,12 @@ async function run() {
     app.get("/api/subcategories", async (req, res) => {
       const allSubCategories = await subcategories.find().toArray();
       res.status(200).json(allSubCategories);
+    });
+    // ---------- Get subcategory by post method
+    app.post("/api/subcategories/getsubCategory", async (req, res) => {
+      const query = req.body;
+      const subCategory = await subcategories.find(query).toArray();
+      res.status(200).json(subCategory);
     });
     // ---------- Get sub category by subCategoryId
     app.get("/api/subcategories/:subCategoryId", async (req, res) => {
