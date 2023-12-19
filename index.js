@@ -60,6 +60,18 @@ async function run() {
       const writer = await writers.findOne({ writerId: req.params.writerId });
       res.status(200).json(writer);
     });
+    // ---------- Get writer by post method
+    app.post("/api/writers/getwriters", async (req, res) => {
+      const queryArray = req.body;
+      const query = {};
+      queryArray.forEach((item) => {
+        const [field, value] = item.split(":");
+        query[field] = value;
+      });
+
+      const writer = await writers.find(query).toArray();
+      res.status(200).json(writer);
+    });
     // ----------------------------------------------------------Editor Route----------------------------------------------------------
     app.get("/api/editors", async (req, res) => {
       const allEditors = await editors.find().toArray();
