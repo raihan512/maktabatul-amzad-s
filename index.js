@@ -45,6 +45,11 @@ async function run() {
       const book = await books.findOne(query);
       res.status(200).json(book);
     });
+    // ---------- Add Book
+    app.post("/api/addbook", async (req, res) => {
+      const book = await books.insertOne(req.body);
+      res.send(book);
+    });
     // ----------------------------------------------------------Writer Route----------------------------------------------------------
     app.get("/api/writers", async (req, res) => {
       const allWriters = await writers.find().toArray();
