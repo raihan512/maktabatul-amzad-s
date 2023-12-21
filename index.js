@@ -48,9 +48,16 @@ async function run() {
     // ---------- Get book categoryId by push method
     app.post("/api/books/getcategory", async (req, res) => {
       const query = req.body;
+      console.log(query);
       const getBooks = await books.find(query).toArray();
       res.status(200).json(getBooks);
     });
+    // ---------- Get book subcategoryid by push method
+    // app.post("/api/books/getcategory", async (req, res) => {
+    //   const query = req.body;
+    //   const getBooks = await books.find(query).toArray();
+    //   res.status(200).json(getBooks);
+    // });
     // ---------- Add Book
     app.post("/api/addbook", async (req, res) => {
       const book = await books.insertOne(req.body);
@@ -82,6 +89,13 @@ async function run() {
     app.get("/api/publishers", async (req, res) => {
       const allPublishers = await publishers.find().toArray();
       res.status(200).json(allPublishers);
+    });
+    // ---------- Get publisher by id
+    app.get("/api/publishers/:id", async (req, res) => {
+      console.log(req.params.id);
+      const query = { publisherId: req.params.id };
+      const publisher = await publishers.findOne(query);
+      res.status(200).json(publisher);
     });
     // ---------- Get publisher by post method
     app.post("/api/publishers/getpublisher", async (req, res) => {
