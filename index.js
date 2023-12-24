@@ -63,6 +63,14 @@ async function run() {
       const book = await books.insertOne(req.body);
       res.send(book);
     });
+    // ---------- Delete Book
+    app.delete("/api/deletebook/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const deleteBook = await books.deleteOne(query);
+      res.send(deleteBook);
+    });
+
     // ----------------------------------------------------------Writer Route----------------------------------------------------------
     app.get("/api/writers", async (req, res) => {
       const allWriters = await writers.find().toArray();
