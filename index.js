@@ -164,6 +164,20 @@ async function run() {
       });
       res.status(200).json(subCategory);
     });
+
+    // ---------- Add Subcategory
+    app.post("/api/addsubsubject", async (req, res) => {
+      const subcategory = await subcategories.insertOne(req.body);
+      res.send(subcategory);
+    });
+    // ---------- Delete Writer
+    app.delete("/api/deletesubcategory/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const deleteSubCategory = await subcategories.deleteOne(query);
+      res.send(deleteSubCategory);
+    });
+
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
