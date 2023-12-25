@@ -88,6 +88,11 @@ async function run() {
       const writer = await writers.find(query).toArray();
       res.status(200).json(writer);
     });
+    // ---------- Add Writer
+    app.post("/api/addwriter", async (req, res) => {
+      const writer = await writers.insertOne(req.body);
+      res.send(writer);
+    });
     // ----------------------------------------------------------Editor Route----------------------------------------------------------
     app.get("/api/editors", async (req, res) => {
       const allEditors = await editors.find().toArray();
