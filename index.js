@@ -128,6 +128,19 @@ async function run() {
       const publisher = await publishers.find(query).toArray();
       res.status(200).json(publisher);
     });
+    // ---------- Add Publisher
+    app.post("/api/addpublisher", async (req, res) => {
+      const publisher = await publishers.insertOne(req.body);
+      res.send(publisher);
+    });
+    // ---------- Delete Publisher
+    app.delete("/api/deletepublisher/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const deletePublisher = await publishers.deleteOne(query);
+      res.send(deletePublisher);
+    });
+    // -
     // ----------------------------------------------------------Category Route----------------------------------------------------------
     app.get("/api/categories", async (req, res) => {
       const allCategories = await categories.find().toArray();
