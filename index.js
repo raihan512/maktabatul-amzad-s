@@ -93,6 +93,13 @@ async function run() {
       const writer = await writers.insertOne(req.body);
       res.send(writer);
     });
+    // ---------- Delete Writer
+    app.delete("/api/deletewriter/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const deleteWriter = await writers.deleteOne(query);
+      res.send(deleteWriter);
+    });
     // ----------------------------------------------------------Editor Route----------------------------------------------------------
     app.get("/api/editors", async (req, res) => {
       const allEditors = await editors.find().toArray();
