@@ -146,6 +146,19 @@ async function run() {
       });
       res.status(200).json(category);
     });
+
+    // ---------- Add category
+    app.post("/api/addsubject", async (req, res) => {
+      const category = await categories.insertOne(req.body);
+      res.send(category);
+    });
+    // ---------- Delete Category
+    app.delete("/api/deletecategory/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const deleteCategory = await categories.deleteOne(query);
+      res.send(deleteCategory);
+    });
     // ----------------------------------------------------------Sub Category Route----------------------------------------------------------
     app.get("/api/subcategories", async (req, res) => {
       const allSubCategories = await subcategories.find().toArray();
@@ -170,7 +183,7 @@ async function run() {
       const subcategory = await subcategories.insertOne(req.body);
       res.send(subcategory);
     });
-    // ---------- Delete Writer
+    // ---------- Delete SubCategory
     app.delete("/api/deletesubcategory/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
